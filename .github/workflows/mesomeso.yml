@@ -3,7 +3,7 @@ name: SSH Command on EC2
 on:
   push:
     branches:
-      - master # mainブランチへのプッシュをトリガー
+      - main # mainブランチへのプッシュをトリガー
 
 jobs:
   run_ssh_command:
