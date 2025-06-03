@@ -1,0 +1,50 @@
+name: SSH Command on EC2
+
+on:
+  push:
+    branches:
+      - master # mainブランチへのプッシュをトリガー
+
+jobs:
+  run_ssh_command:
+    runs-on: ubuntu-latest # GitHubホステッドランナー (SSHクライアントが利用可能)
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up SSH Key and Run Command # ★ここがSSH接続の核心部分
+      env:
+        # GitHub Secretsに保存した情報を環境変数として参照
+        # SSH_PRIVATE_KEY: EC2インスタンスのキーペアの秘密鍵（.pemファイルの中身）
+        # EC2_HOST: EC2インスタンスのパブリックIPアドレスまたはパブリックDNS名
+        # EC2_USER: EC2インスタンスのユーザー名 (例: ec2-user, ubuntuなど)
+        SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
+        EC2_HOST: ${{ secrets.EC2_PUBLIC_IP_OR_DNS }}
+        EC2_USER: ec2-user # あなたのEC2のOSに合わせたユーザー名に修正してください (例: ubuntu, centosなど)
+      run: |
+        echo "Attempting SSH connection to ${EC2_USER}@${EC2_HOST}..."
+
+        # 1. SSH秘密鍵を一時的にファイルに書き出す
+        # GitHub Actionsの実行環境はジョブ終了後に破棄されるため、安全に秘密鍵を扱えます
+        mkdir -p ~/.ssh
+        echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa_ec2
+        chmod 600 ~/.ssh/id_rsa_ec2 # 秘密鍵のパーミッションを設定 (必須)
+
+        # 2. SSH接続してコマンドを実行
+        # -i: 秘密鍵のパスを指定
+        # -o StrictHostKeyChecking=no: 初回接続時のホスト認証確認をスキップ (CI/CDで必須)
+        # -o UserKnownHostsFile=/dev/null: Known Hostsファイルを使用しない (CI/CDで必須)
+        # コマンドは引用符で囲んで指定します
+        ssh -i ~/.ssh/id_rsa_ec2 \
+            -o StrictHostKeyChecking=no \
+            -o UserKnownHostsFile=/dev/null \
+            ${EC2_USER}@${EC2_HOST} "
+              echo '--- Start multiple commands ---';
+              pwd; # 現在のディレクトリを表示
+              ls -l /tmp; # /tmpディレクトリの内容を一覧表示
+              df -h; # ディスク使用量を表示
+              echo '--- End multiple commands ---';
+            "
+
+        echo "SSH command execution completed."
