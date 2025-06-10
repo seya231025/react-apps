@@ -1,0 +1,169 @@
+/* --- グローバルスタイル & 基本設定 --- */
+body {
+    margin: 0; /* ブラウザデフォルトのマージンをリセット */
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif; /* モダンなフォント指定 (日本語考慮) */
+    line-height: 1.7; /* 行間を広めにとり、読みやすく */
+    background-color: #f8f9fa; /* 薄いグレーの背景 */
+    color: #343a40; /* やや濃いグレーの文字色 (黒より少し柔らかい) */
+  }
+  
+  /* --- アプリケーション全体のコンテナ --- */
+  .App {
+    padding: 20px; /* アプリ全体の周囲に余白 */
+  }
+  
+  /* --- メインタイトル (H1) --- */
+  .App h1 {
+    text-align: center; /* 中央揃え */
+    font-size: 2.2rem; /* やや大きめのサイズ */
+    margin-bottom: 40px; /* 下に十分な余白 */
+    color: #212529; /* より濃い文字色で見出しを強調 */
+    font-weight: 600; /* 少し太字に */
+  }
+  
+  /* --- APODコンテンツコンテナ --- */
+  .apod-container {
+    max-width: 800px; /* 最大幅を設定 */
+    margin: 20px auto; /* 上下に余白、左右中央揃え */
+    padding: 30px 35px; /* 内側の余白を十分にとる */
+    background-color: #ffffff; /* 白い背景でコンテンツを区切る */
+    border: 1px solid #dee2e6; /* 薄い境界線 */
+    border-radius: 8px; /* 角を少し丸める */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05); /* わずかな影で立体感を出す */
+  }
+  
+  /* --- APODタイトル (H2) --- */
+  .apod-container h2 {
+    font-size: 1.7rem; /* H1より少し小さいサイズ */
+    margin-top: 0; /* 上の余白をリセット */
+    margin-bottom: 10px; /* 日付との間に少し余白 */
+    color: #212529;
+    font-weight: 600;
+  }
+  
+  /* --- 日付表示 (APODコンテナ内の最初のPタグを想定) --- */
+  /* React側で <p className="apod-date">{apodData.date}</p> のようにクラスを付けるのがより確実です */
+  .apod-container > p:first-of-type {
+    color: #6c757d; /* やや薄いグレーで補助情報らしく */
+    font-size: 0.9rem; /* 少し小さめに */
+    margin-bottom: 25px; /* 画像/動画の前に余白 */
+  }
+  
+  /* --- APOD画像 --- */
+  .apod-image {
+    display: block; /* ブロック要素として扱う */
+    max-width: 100%; /* コンテナ幅に合わせて伸縮 */
+    height: auto; /* アスペクト比を維持 */
+    margin: 20px auto; /* 上下に余白、左右中央揃え */
+    border-radius: 6px; /* 画像の角も少し丸める */
+    border: 1px solid #e9ecef; /* ごく薄い境界線 */
+  }
+  
+  /* --- 動画情報セクション --- */
+  /* React側で <div className="apod-video-info">...</div> のようにクラスを付けるのがより確実です */
+  .apod-container div { /* 現状、動画用のdivを想定 */
+    margin: 25px 0;
+    padding: 15px;
+    background-color: #f1f3f5; /* 背景を少し変えて区別 */
+    border-radius: 4px;
+  }
+  
+  .apod-container div p {
+    margin: 0 0 8px 0; /* 段落下のマージン調整 */
+    font-size: 0.95rem;
+    color: #495057;
+  }
+  
+  .apod-container div a {
+    color: #0056b3; /* やや濃い青で見やすいリンク色 */
+    text-decoration: none; /* 下線は消す */
+    word-break: break-all; /* URLが長い場合に折り返す */
+    font-weight: 500;
+  }
+  
+  .apod-container div a:hover {
+    text-decoration: underline; /* ホバー時に下線を表示 */
+    color: #003d80; /* ホバー色を少し濃く */
+  }
+  
+  /* --- APOD説明文 --- */
+  .apod-explanation {
+    font-size: 1rem; /* 基本の文字サイズ */
+    text-align: left; /* 左揃えが読みやすい */
+    margin-top: 25px; /* 画像/動画セクションとの間に余白 */
+    color: #343a40; /* 基本の文字色 */
+  }
+  
+  /* --- コンテナ内の最後の要素の下マージンを削除 --- */
+  .apod-container > *:last-child {
+    margin-bottom: 0;
+  }
+  
+  p[style*="color: red"] { /* エラーメッセージのスタイル */
+    font-weight: bold;
+    padding: 15px;
+    background-color: #fff3f3; /* 薄い赤背景 */
+    border: 1px solid #ffc9c9; /* 赤い境界線 */
+    border-radius: 4px;
+    text-align: center;
+    max-width: 800px; /* コンテナと合わせる */
+    margin: 20px auto; /* 中央揃え */
+  }
+
+  .navigation {
+    display: flex; /* ボタンと日付表示を横並びに */
+    justify-content: space-between; /* 両端に寄せる */
+    align-items: center; /* 上下中央揃え */
+    max-width: 800px; /* コンテンツ幅と合わせる */
+    margin: 15px auto 25px auto; /* 上下に余白、左右中央揃え */
+    padding: 10px;
+    background-color: #e9ecef; /* 背景色を少しつける */
+    border-radius: 6px;
+  }
+  
+  .nav-button {
+    padding: 10px 18px;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #ffffff;
+    background-color: #007bff; /* ボタンの色 (青) */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, opacity 0.2s ease; /* ホバー効果 */
+  }
+  
+  .nav-button:hover:not(:disabled) { /* disabledでない場合のみホバー効果 */
+    background-color: #0056b3; /* ホバー時の色を濃く */
+  }
+  
+  .nav-button:disabled {
+    background-color: #a0c7e8; /* 無効時の色 */
+    cursor: not-allowed; /* カーソルを変更 */
+    opacity: 0.7; /* 少し透明に */
+  }
+  
+  .current-date-display {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #343a40;
+  }
+  
+  /* --- レスポンシブ (簡易) --- */
+  @media (max-width: 600px) {
+    .navigation {
+      flex-direction: column; /* 狭い画面では縦積みに */
+      align-items: stretch; /* 幅いっぱいに */
+    }
+    .current-date-display {
+      margin: 10px 0; /* 縦積みの際に日付表示の上下に余白 */
+      text-align: center;
+    }
+    .nav-button {
+       width: 100%; /* 縦積み時にボタン幅を100%に */
+       box-sizing: border-box; /* paddingを含めて幅100%にする */
+    }
+    .prev-button {
+        margin-bottom: 8px; /* 上のボタンの下に少し余白 */
+    }
+  }
